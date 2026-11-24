@@ -1,193 +1,133 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, MapPin, Clock, Phone } from 'lucide-react';
-import { CONFIG, ROUTES } from '../config/constants';
-import { useWhatsApp } from '../hooks/useWhatsApp';
-import Button from './ui/Button';
+import { Menu, X } from 'lucide-react';
+import { SITE_CONFIG, ROUTES } from '../config/siteConfig';
 
-/**
- * Header component with responsive navigation
- * Follows best practices for accessibility and maintainability
- */
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const { bookAppointment } = useWhatsApp();
 
-  // Navigation items
   const navigationItems = [
     { path: ROUTES.HOME, label: 'Home' },
-    { path: ROUTES.ABOUT, label: 'About Us' },
+    { path: ROUTES.ABOUT, label: 'About' },
     { path: ROUTES.SERVICES, label: 'Services' },
-    // { path: ROUTES.OFFERS, label: 'Offers' },
+    { path: ROUTES.OFFERS, label: 'Offers' },
     { path: ROUTES.CONTACT, label: 'Contact' },
   ];
 
-  const handleBookNow = () => {
-    bookAppointment('general appointment');
-  };
-
-  const closeMobileMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  const isActiveRoute = (path) => {
-    return location.pathname === path;
-  };
+  const isActiveRoute = (path) => location.pathname === path;
 
   return (
     <header
-      className="fixed w-full top-0 z-50 shadow-sm transition-all duration-300 bg-white border-b border-stone-100"
+      className="fixed top-0 inset-x-0 z-50 bg-[#FAF8F4]/95 backdrop-blur-md border-b border-[#E5DFD3]"
       role="banner"
     >
-      {/* Top info bar */}
-      <div className="w-full bg-[#faf7f2] text-stone-700 text-[10px] sm:text-xs md:text-sm border-b border-stone-200/80 backdrop-blur-sm">
-        <div className="container mx-auto px-3 sm:px-4 py-1.5 sm:py-2 flex flex-row items-center justify-between gap-1.5 sm:gap-2 overflow-x-auto">
-          <div className="flex flex-row items-center gap-1.5 sm:gap-2 md:gap-6 flex-shrink-0">
-            <div className="flex items-center gap-1 sm:gap-2 whitespace-nowrap">
-              <MapPin size={12} className="sm:w-4 sm:h-4 md:w-4 md:h-4 text-[#D4AF37] flex-shrink-0" />
-              <span className="font-medium">
-                {CONFIG.LOCATION}
-              </span>
-            </div>
-            <div className="flex items-center gap-1 sm:gap-2 whitespace-nowrap">
-              <Clock size={12} className="sm:w-4 sm:h-4 md:w-4 md:h-4 text-[#D4AF37] flex-shrink-0" />
-              <span className="font-medium">
-                Open Daily: {CONFIG.BUSINESS_HOURS.DISPLAY}
-              </span>
-            </div>
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-[72px] flex items-center justify-between gap-8">
+        {/* Zone 1: Single-line Brand Wordmark */}
+        <Link
+          to={ROUTES.HOME}
+          className="flex items-center gap-3 whitespace-nowrap shrink-0 rounded-md"
+          aria-label={`${SITE_CONFIG.BUSINESS_NAME} — Home`}
+        >
+          <img
+            src="/Logo/1.png"
+            alt={SITE_CONFIG.BUSINESS_NAME}
+            className="h-10 w-auto object-contain"
+            referrerPolicy="no-referrer"
+          />
+          <span className="font-display text-2xl font-semibold tracking-tight text-[#1B2620]">
+            {SITE_CONFIG.BUSINESS_NAME}
+          </span>
+        </Link>
 
+        {/* Zone 2: 5 concise single-line text links */}
+        <nav
+          className="hidden md:flex items-center gap-7"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          {navigationItems.map((item) => {
+            const active = isActiveRoute(item.path);
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`relative py-1.5 text-sm font-medium whitespace-nowrap shrink-0 transition-colors duration-150 ${
+                  active ? 'text-[#9A741F]' : 'text-[#4A554E] hover:text-[#1B2620]'
+                }`}
+                aria-current={active ? 'page' : undefined}
+              >
+                {item.label}
+                <span
+                  className={`absolute bottom-0 left-0 h-[1.5px] bg-[#9A741F] transition-all duration-200 ${
+                    active ? 'w-full' : 'w-0'
+                  }`}
+                />
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Zone 3: Single Primary Action */}
+        <div className="hidden md:flex items-center shrink-0">
           <a
-            href={`tel:${CONFIG.PHONE_NUMBER}`}
-            className="flex items-center gap-1 sm:gap-2 font-semibold text-[#b58d20] hover:text-[#886712] transition-colors whitespace-nowrap flex-shrink-0"
+            href={`tel:${SITE_CONFIG.PHONE_NUMBER}`}
+            className="px-5 py-2.5 rounded-lg bg-[#1B2620] text-[#FAF8F4] text-sm font-semibold hover:bg-[#2A3B32] transition-colors whitespace-nowrap shrink-0"
           >
-            <Phone size={12} className="sm:w-4 sm:h-4 md:w-4 md:h-4 flex-shrink-0" />
-            <span className="text-[10px] sm:text-xs md:text-sm">{CONFIG.PHONE_DISPLAY}</span>
+            Call Now
           </a>
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          className="md:hidden p-2 rounded-lg text-[#1B2620] hover:bg-[#F2EDE4] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-navigation"
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+        >
+          {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </div>
 
-      {/* Main navigation bar */}
-      <div className="bg-white/95 backdrop-blur-md">
-        <div className="container mx-auto px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link
-            to={ROUTES.HOME}
-            className="flex items-center focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:ring-offset-2 focus:ring-offset-white rounded-lg"
-            aria-label={`${CONFIG.BUSINESS_NAME} - Go to homepage`}
-          >
-            <img
-              src="/Logo/1.png"
-              alt="Logo"
-              className="h-15 sm:h-15 md:h-[70px] w-auto object-contain"
-            />
-          </Link>
-
-
-          {/* Desktop Navigation */}
-          <nav
-            className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-8"
-            role="navigation"
-            aria-label="Main navigation"
-          >
-            {navigationItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`relative font-bold py-2 group transition-all duration-300 ${isActiveRoute(item.path)
-                  ? 'text-[#D4AF37]'
-                  : 'text-stone-800 hover:text-[#D4AF37]'
+      {/* Mobile Navigation Drawer */}
+      {isMenuOpen && (
+        <div
+          id="mobile-navigation"
+          className="md:hidden bg-[#FAF8F4] border-t border-[#E5DFD3] px-4 py-4 shadow-lg"
+        >
+          <nav className="flex flex-col space-y-1" aria-label="Mobile navigation">
+            {navigationItems.map((item) => {
+              const active = isActiveRoute(item.path);
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`px-3 py-3 rounded-lg text-base font-medium transition-colors ${
+                    active
+                      ? 'bg-[#F2EDE4] text-[#9A741F]'
+                      : 'text-[#1B2620] hover:bg-[#F2EDE4]/60'
                   }`}
-                aria-current={isActiveRoute(item.path) ? 'page' : undefined}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+            <div className="pt-3">
+              <a
+                href={`tel:${SITE_CONFIG.PHONE_NUMBER}`}
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-center px-5 py-3 rounded-lg bg-[#1B2620] text-[#FAF8F4] text-sm font-semibold hover:bg-[#2A3B32] transition-colors"
               >
-                {item.label}
-                <span className={`absolute bottom-0 left-0 h-0.5 bg-[#D4AF37] transition-all duration-300 ${isActiveRoute(item.path) ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}></span>
-              </Link>
-            ))}
-          </nav>
-
-          {/* Desktop Book Now Button */}
-          <div className="hidden md:block">
-            <Button
-              variant="primary"
-              size="md"
-              onClick={handleBookNow}
-              aria-label="Book an appointment via WhatsApp"
-            >
-              Book Appointment
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-1.5 sm:p-2 text-[#D4AF37] transition-all duration-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:ring-offset-2 focus:ring-offset-white shadow-sm"
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          >
-            <div className="relative w-5 h-5 sm:w-6 sm:h-6">
-              <Menu
-                size={20}
-                className={`sm:w-6 sm:h-6 absolute inset-0 transition-all duration-300 ${isMenuOpen ? 'opacity-0 rotate-90' : 'opacity-100 rotate-0'
-                  }`}
-              />
-              <X
-                size={20}
-                className={`sm:w-6 sm:h-6 absolute inset-0 transition-all duration-300 ${isMenuOpen ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'
-                  }`}
-              />
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div
-        id="mobile-menu"
-        className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-          }`}
-        aria-hidden={!isMenuOpen}
-      >
-        <div className="bg-white shadow-xl border-t border-stone-200">
-          <nav
-            className="flex flex-col p-3 sm:p-4 space-y-1.5 sm:space-y-2"
-            role="navigation"
-            aria-label="Mobile navigation"
-          >
-            {navigationItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`font-bold transition-all duration-300 py-1.5 sm:py-2 px-2 rounded-lg text-sm sm:text-base ${isActiveRoute(item.path)
-                  ? 'text-[#D4AF37] bg-amber-50'
-                  : 'text-stone-800 hover:text-[#D4AF37] hover:bg-stone-50'
-                  }`}
-                onClick={closeMobileMenu}
-                aria-current={isActiveRoute(item.path) ? 'page' : undefined}
-              >
-                {item.label}
-              </Link>
-            ))}
-
-            <div className="pt-2">
-              <Button
-                variant="primary"
-                size="md"
-                onClick={() => {
-                  handleBookNow();
-                  closeMobileMenu();
-                }}
-                className="w-full"
-              >
-                Book Now
-              </Button>
+                Call Now
+              </a>
             </div>
           </nav>
         </div>
-      </div>
+      )}
     </header>
   );
 };

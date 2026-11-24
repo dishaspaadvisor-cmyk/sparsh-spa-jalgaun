@@ -6,17 +6,25 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+vite-dev.err
 
+# Environment variables (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Dependencies & Build outputs
 node_modules
 dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Editor & OS files
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj

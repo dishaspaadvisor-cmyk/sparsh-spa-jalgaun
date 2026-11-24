@@ -1,66 +1,75 @@
 import React from 'react';
-import { Award, ShieldCheck, Sparkles, Heart } from 'lucide-react';
-import { CONFIG } from '../config/constants';
+import { Award, ShieldCheck, Leaf, Users } from 'lucide-react';
+import { SITE_CONFIG } from '../config/siteConfig';
 
 const WhyChooseSection = () => {
-  const benefits = [
+  const pillars = [
     {
-      id: 1,
+      id: '01',
       icon: Award,
-      title: "Certified Therapists",
-      description: "Internationally certified professionals experienced in anatomy and hygiene.",
+      title: 'Certified Therapists',
+      description:
+        'Our wellness practitioners are formally trained in classical Swedish, Deep Tissue, Thai, and Ayurvedic massage techniques.',
     },
     {
-      id: 2,
+      id: '02',
       icon: ShieldCheck,
-      title: "Hygienic Rooms",
-      description: "Pristine, sanitized treatment rooms ensuring a safe wellness environment.",
+      title: 'Strict Suite Hygiene',
+      description:
+        'Treatment tables, surfaces, and hydrotherapy tubs are sanitized between every appointment with fresh linens and single-use kits.',
     },
     {
-      id: 3,
-      icon: Sparkles,
-      title: "Luxury Ambience",
-      description: "A peaceful, world-class setting designed for complete relaxation.",
+      id: '03',
+      icon: Leaf,
+      title: 'Pure Botanical Oils',
+      description:
+        'We blend cold-pressed sweet almond, sesame, and natural essential oils free from harsh synthetic fragrances.',
     },
     {
-      id: 4,
-      icon: Heart,
-      title: "Couple Rooms",
-      description: "Private suites dedicated for couples to enjoy simultaneous relaxation.",
+      id: '04',
+      icon: Users,
+      title: 'Individual & Couple Suites',
+      description:
+        'Spacious, sound-insulated air-conditioned suites designed for solo unwinding as well as simultaneous couple sessions.',
     },
   ];
 
   return (
-    <section className="py-20 bg-white text-gray-900 border-t border-stone-100">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-        {/* Heading */}
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-stone-900 text-center mb-12 md:mb-16">
-          Why Choose <span className="text-[#b58d20]">{CONFIG.BUSINESS_NAME}</span>?
-        </h2>
+    <section className="py-16 md:py-24 bg-white border-y border-[#E5DFD3] text-[#1B2620]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mb-12">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9A741F] mb-2">
+            Our Standards
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#1B2620] leading-tight">
+            Why Guests Trust {SITE_CONFIG.BUSINESS_NAME}
+          </h2>
+        </div>
 
-        {/* Benefits Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-          {benefits.map((benefit) => {
-            const IconComponent = benefit.icon;
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {pillars.map((pillar) => {
+            const Icon = pillar.icon;
             return (
               <div
-                key={benefit.id}
-                className="text-center flex flex-col items-center p-6 rounded-2xl bg-stone-50/70 border border-stone-200/70 hover:shadow-xl hover:bg-white hover:-translate-y-1 transition-all duration-300"
+                key={pillar.id}
+                className="p-6 rounded-2xl bg-[#FAF8F4] border border-[#E5DFD3] flex flex-col justify-between"
               >
-                {/* Icon with warm gold background */}
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-amber-50 border border-amber-200/80 flex items-center justify-center mb-4 md:mb-6 shadow-sm">
-                  <IconComponent size={32} className="text-[#b58d20]" />
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="w-10 h-10 rounded-lg bg-[#F2EDE4] flex items-center justify-center text-[#9A741F]">
+                      <Icon size={20} aria-hidden="true" />
+                    </span>
+                    <span className="text-xs font-semibold text-[#6B756E] tabular-nums">
+                      {pillar.id}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-2xl font-semibold text-[#1B2620] mb-2">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-sm text-[#4A554E] leading-relaxed">
+                    {pillar.description}
+                  </p>
                 </div>
-
-                {/* Heading */}
-                <h3 className="text-xl md:text-2xl font-bold text-stone-900 mb-3 md:mb-4">
-                  {benefit.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                  {benefit.description}
-                </p>
               </div>
             );
           })}

@@ -1,31 +1,38 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Phone, ArrowRight } from 'lucide-react';
+import { SITE_CONFIG, ROUTES } from '../config/siteConfig';
 
 const ExpertHandsSection = () => {
   return (
-    <section className="py-12 sm:py-14 md:py-16 relative overflow-hidden bg-[#faf8f5] border-y border-stone-200/80">
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-7xl relative z-10">
-        <div className="max-w-4xl mx-auto text-center rounded-2xl p-6 sm:p-8 md:p-10 bg-white/80 border border-stone-200/60 shadow-lg backdrop-blur-sm">
-          {/* Heading */}
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-stone-900 mb-3 sm:mb-4">
-            Expert Hands You Can Trust
-          </h2>
-
-          {/* Description */}
-          <p className="text-sm sm:text-base md:text-base text-gray-700 leading-relaxed mb-4 sm:mb-5 px-2 sm:px-0 max-w-3xl mx-auto">
-            Our therapists are trained not just in massage techniques, but also in anatomy, safety, and hygiene protocols to ensure every guest feels secure and cared for.
-          </p>
-
-          {/* Quote */}
-          <div className="mb-5 sm:mb-6">
-            <p className="text-base sm:text-lg md:text-xl font-medium italic text-[#b58d20] leading-relaxed px-2 sm:px-0">
-              "Every touch is guided by technique, empathy, and respect."
-            </p>
-          </div>
-
-          {/* Meet Our Experts Button */}
-          <button className="bg-white border-2 border-[#D4AF37] text-[#b58d20] px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm md:text-base font-bold shadow-md hover:bg-[#D4AF37] hover:text-black transition-all duration-300 transform hover:scale-105">
-            Meet Our Experts
-          </button>
+    <section className="py-16 md:py-20 bg-[#1B2620] text-[#FAF8F4]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#E3C68E] mb-3">
+          Personalized Consultation
+        </p>
+        <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.75rem] font-semibold text-[#FAF8F4] leading-tight mb-4">
+          Guided by Technique, Empathy, and Respect
+        </h2>
+        <p className="text-base text-[#D6D0C4] leading-relaxed max-w-2xl mx-auto mb-8">
+          Every guest arrives with different stress levels and muscle tension. Before your session
+          begins, our reception and therapist team confirm your preferred pressure, oil blend, and
+          focus areas so your treatment feels restorative from start to finish.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
+          <Link
+            to={ROUTES.CONTACT}
+            className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-lg bg-[#D4AF37] text-[#1B2620] font-semibold text-sm hover:bg-[#e0be4c] transition-colors whitespace-nowrap"
+          >
+            <span>Schedule a Consultation</span>
+            <ArrowRight size={16} aria-hidden="true" />
+          </Link>
+          <a
+            href={`tel:${SITE_CONFIG.PHONE_NUMBER}`}
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-white/25 text-[#FAF8F4] font-semibold text-sm hover:bg-white/10 transition-colors whitespace-nowrap tabular-nums"
+          >
+            <Phone size={15} className="text-[#D4AF37]" aria-hidden="true" />
+            <span>Call {SITE_CONFIG.PHONE_DISPLAY}</span>
+          </a>
         </div>
       </div>
     </section>

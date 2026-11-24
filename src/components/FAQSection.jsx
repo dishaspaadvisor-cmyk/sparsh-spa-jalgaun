@@ -1,103 +1,67 @@
-import React, { useMemo } from 'react';
-import { CONFIG } from '../config/constants';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Plus, ArrowRight } from 'lucide-react';
+import { FAQ_DATA, SITE_CONFIG, ROUTES } from '../config/siteConfig';
+import { buildWhatsAppUrl } from '../hooks/useWhatsApp';
 
 const FAQSection = () => {
-  const faqs = useMemo(
-    () => [
-      {
-        q: 'What are your spa timings and do you take walk-ins?',
-        a: `We operate daily from ${CONFIG.BUSINESS_HOURS.DISPLAY}. Walk-ins are welcome, but we recommend advance booking to secure your preferred slot.`
-      },
-      {
-        q: 'How can I book an appointment?',
-        a: 'You can book via WhatsApp using the Book Now buttons on our website or call us directly. We will confirm your time and therapist preference.'
-      },
-      {
-        q: 'What massage services do you offer and what is the duration?',
-        a: 'We offer deep tissue, hot stone, Swedish full body, Thai massage, hot oil massage, and foot reflexology. Sessions typically range from 30 to 90 minutes depending on the service.'
-      },
-      {
-        q: 'Do you have couple massage rooms?',
-        a: 'Yes, we provide couple spa experiences subject to availability. Please mention "couple massage" while booking so we can reserve the room.'
-      },
-      {
-        q: 'What oils and products do you use? Can I choose the pressure?',
-        a: 'We use premium-grade, skin-safe oils and aromatherapy blends. Pressure and technique are fully customizable. Please inform your therapist of your preferences.'
-      },
-      {
-        q: 'Are your therapists certified? Can I request a female therapist?',
-        a: 'All therapists are trained professionals. You may request a female therapist while booking and we will do our best to accommodate.'
-      },
-      {
-        q: 'What about hygiene and safety?',
-        a: 'Hygiene is our priority. Linens are changed after every session, rooms and equipment are sanitized regularly, and disposable items are used wherever appropriate.'
-      },
-      {
-        q: 'Where are you located? Is parking available?',
-        a: `We are located at ${CONFIG.ADDRESS}. Nearby street and paid parking options are typically available; message us for exact directions.`
-      },
-      {
-        q: 'Do you offer gift vouchers and premium plans?',
-        a: 'Yes. We offer digital and physical gift vouchers, plus premium membership plans with bundled sessions, priority booking, and exclusive discounts. Message us on WhatsApp to see current plan options and benefits.'
-      },
-    ],
-    []
+  const whatsappHref = buildWhatsAppUrl(
+    `Hello ${SITE_CONFIG.BUSINESS_NAME}, I have a question about booking a spa session.`
   );
 
-  const jsonLd = useMemo(() => {
-    const mainEntity = faqs.map((item) => ({
-      '@type': 'Question',
-      name: item.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.a,
-      },
-    }));
-
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity,
-    };
-  }, [faqs]);
-
-  const handleWhatsApp = () => {
-    const message = `Hello, I want to book a spa appointment at ${CONFIG.BUSINESS_NAME}.`;
-    window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-  };
-
   return (
-    <section id="faq" className="py-20 bg-white text-gray-900 border-t border-stone-100">
-      <div className="container mx-auto px-6 max-w-5xl">
+    <section id="faq" className="py-16 md:py-24 bg-white text-[#1B2620] border-t border-[#E5DFD3]">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#b58d20] mb-2">
-            Got Questions?
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9A741F] mb-2">
+            Guest Information
           </p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-stone-900 mb-3">Frequently Asked Questions</h2>
-          <p className="text-base md:text-lg text-gray-600">Answers to common booking and service queries from our guests.</p>
+          <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#1B2620] mb-3">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-sm sm:text-base text-[#4A554E]">
+            Helpful details on bookings, suite hygiene, timings, and treatment preparation.
+          </p>
         </div>
 
-        <div className="space-y-4">
-          {faqs.map((item, idx) => (
-            <details key={idx} className="group border border-stone-200 rounded-2xl bg-stone-50/70 p-5 open:bg-white open:shadow-lg open:border-amber-200 transition-all duration-300">
-              <summary className="list-none cursor-pointer flex items-start justify-between gap-4">
-                <h3 className="text-base sm:text-lg font-semibold text-stone-900 group-open:text-[#b58d20] transition-colors">
+        <div className="space-y-3">
+          {FAQ_DATA.map((item, idx) => (
+            <details
+              key={idx}
+              className="group rounded-2xl border border-[#E5DFD3] bg-[#FAF8F4] open:bg-white transition-colors"
+            >
+              <summary className="list-none cursor-pointer flex items-center justify-between gap-4 p-5 sm:p-6">
+                <h3 className="text-base sm:text-lg font-semibold text-[#1B2620] group-open:text-[#9A741F] transition-colors">
                   {item.q}
                 </h3>
-                <span className="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#D4AF37] text-black text-sm font-bold transition-transform group-open:rotate-45 flex-shrink-0 shadow-sm">+</span>
+                <span className="w-7 h-7 rounded-full border border-[#D9D0C1] bg-white flex items-center justify-center flex-shrink-0 text-[#1B2620] transition-transform duration-200 group-open:rotate-45">
+                  <Plus size={15} aria-hidden="true" />
+                </span>
               </summary>
-              <div className="pt-3.5 mt-2.5 text-gray-700 leading-relaxed border-t border-stone-100 text-sm sm:text-base">{item.a}</div>
+              <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-1 text-sm sm:text-base text-[#4A554E] leading-relaxed border-t border-[#F2EDE4]">
+                {item.a}
+              </div>
             </details>
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <button onClick={handleWhatsApp} className="bg-[#D4AF37] text-black px-9 py-3.5 rounded-full text-base sm:text-lg font-bold shadow-md hover:shadow-xl hover:bg-[#bc962b] transition-all duration-300 transform hover:scale-105">
-            Book on WhatsApp
-          </button>
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5">
+          <Link
+            to={ROUTES.CONTACT}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#1B2620] text-[#FAF8F4] text-sm font-semibold hover:bg-[#2A3B32] transition-colors"
+          >
+            <span>Book an Appointment</span>
+            <ArrowRight size={16} aria-hidden="true" />
+          </Link>
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-[#D9D0C1] bg-[#FAF8F4] text-[#1B2620] text-sm font-semibold hover:bg-[#F2EDE4] transition-colors"
+          >
+            <span>Message Us on WhatsApp</span>
+          </a>
         </div>
-
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </div>
     </section>
   );

@@ -1,123 +1,121 @@
-import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { Phone } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { CONFIG } from "../config/constants";
+import React, { useState } from 'react';
+import { Phone, MapPin, Clock, ShieldCheck } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
+import { SITE_CONFIG } from '../config/siteConfig';
+import { buildWhatsAppUrl } from '../hooks/useWhatsApp';
 
 const HeroSection = () => {
-  const PRIMARY_PHONE = CONFIG.PHONE_NUMBER;
-  const WHATSAPP_NUMBER = CONFIG.WHATSAPP_NUMBER;
+  const [imgError, setImgError] = useState(false);
 
-  const sliderSettings = {
-    dots: true,
-    fade: true,
-    infinite: true,
-    speed: 2000,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    pauseOnHover: false,
-    customPaging: (i) => (
-      <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 hover:bg-[#D4AF37] transition-all duration-300" />
-    ),
-    dotsClass: "slick-dots custom-dots"
-  };
-
-  const slides = [
-    {
-      title: "Best Spa in Jalgaon",
-      image: "/ServicesImg/herobanner2.png",
-    },
-    {
-      title: "Experience True Wellness",
-      image: "/ServicesImg/herobanner3.png",
-    }
-  ];
+  const whatsappUrl = buildWhatsAppUrl(
+    `Hello ${SITE_CONFIG.BUSINESS_NAME}, I would like to know treatment pricing and book an appointment today.`
+  );
 
   return (
-    <section className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden">
-      <Slider {...sliderSettings} className="h-full">
-        {slides.map((slide, index) => (
-          <div key={index} className="relative h-[60vh] md:h-[80vh] outline-none">
-            {/* Background Image */}
-            <div
-              className="absolute inset-0 bg-cover bg-top origin-top transition-transform duration-[10000ms] motion-safe:animate-zoom"
-              style={{
-                backgroundImage: `url('${slide.image}')`,
-                backgroundPosition: 'center top',
-              }}
-            />
+    <section className="relative bg-[#1B2620] text-[#FAF8F4]" aria-labelledby="hero-heading">
+      {/* Main Hero Canvas */}
+      <div className="relative min-h-[540px] lg:min-h-[620px] flex items-center overflow-hidden">
+        {!imgError ? (
+          <img
+            src="/ServicesImg/herobanner2.png"
+            alt="Tranquil luxury treatment suite at Sparsh Spa Jalgaon"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            referrerPolicy="no-referrer"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1B2620] via-[#233229] to-[#121A15]" />
+        )}
 
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/40 to-black/60" />
+        {/* Measured Scrim for WCAG AA Contrast */}
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-[#121A15]/92 via-[#121A15]/75 to-[#121A15]/35"
+          aria-hidden="true"
+        />
 
-            {/* Content Container */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="max-w-4xl"
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 w-full">
+          <div className="max-w-2xl">
+            <p className="text-xs sm:text-sm font-medium tracking-[0.16em] uppercase text-[#E3C68E] mb-4">
+              {SITE_CONFIG.LOCATION} · Holistic Day Spa
+            </p>
+
+            <h1
+              id="hero-heading"
+              className="font-display text-4xl sm:text-5xl lg:text-[3.75rem] font-semibold leading-[1.08] tracking-tight text-[#FAF8F4] mb-5"
+            >
+              Restorative Body Therapies in Tranquil Luxury
+            </h1>
+
+            <p className="text-base sm:text-lg text-[#E6E0D4] leading-relaxed mb-8 max-w-xl">
+              Step away from daily fatigue at {SITE_CONFIG.BUSINESS_NAME}. Experience authentic
+              Ayurvedic, Swedish, Deep Tissue, and Aromatherapy treatments delivered by certified
+              therapists in private, sanitized suites.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+              <a
+                href={`tel:${SITE_CONFIG.PHONE_NUMBER}`}
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#D4AF37] text-[#1B2620] font-semibold text-sm sm:text-base hover:bg-[#e0be4c] transition-colors whitespace-nowrap"
               >
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight drop-shadow-2xl">
-                  {slide.title}
-                </h1>
+                <Phone size={17} aria-hidden="true" />
+                <span>Call Now · {SITE_CONFIG.PHONE_DISPLAY}</span>
+              </a>
 
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-6">
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={`tel:${PRIMARY_PHONE}`}
-                    className="flex items-center gap-2 bg-[#D4AF37] text-black px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-bold shadow-2xl hover:bg-[#bc962b] transition-colors min-w-[180px] md:min-w-[200px] justify-center"
-                  >
-                    <Phone size={18} className="md:w-5 md:h-5" />
-                    Call Now
-                  </motion.a>
-
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                    className="flex items-center gap-2 bg-[#25D366] text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-bold shadow-2xl hover:bg-[#128C7E] transition-colors min-w-[180px] md:min-w-[200px] justify-center"
-                  >
-                    <FaWhatsapp size={20} className="md:w-6 md:h-6" />
-                    WhatsApp
-                  </motion.a>
-                </div>
-              </motion.div>
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#1E6B4B] text-white font-semibold text-sm sm:text-base hover:bg-[#247A56] transition-colors whitespace-nowrap"
+              >
+                <FaWhatsapp size={18} aria-hidden="true" />
+                <span>WhatsApp</span>
+              </a>
             </div>
           </div>
-        ))}
-      </Slider>
+        </div>
+      </div>
 
-      {/* Add custom zoom animation to index.css if not present, but let's try inline style first or assume standard tailwind config if possible. Actually, I can just add a style tag or rely on Framer Motion for zoom if needed. Let's stick to Framer Motion for the text and simple fade for slides. */}
-      <style>{`
-        .animate-zoom {
-          transform-origin: center top !important;
-          animation: zoom 20s linear infinite alternate;
-        }
-        @keyframes zoom {
-          from { transform: scale(1); }
-          to { transform: scale(1.05); }
-        }
-        .custom-dots {
-          bottom: 30px !important;
-        }
-        .custom-dots li {
-          margin: 0 4px !important;
-        }
-        .custom-dots li.slick-active div {
-          background-color: #D4AF37 !important;
-          width: 24px !important;
-          border-radius: 4px !important;
-        }
-      `}</style>
+      {/* Grounded NAP & Trust Strip */}
+      <div className="bg-[#FAF8F4] text-[#1B2620] border-b border-[#E5DFD3]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="flex items-start gap-3">
+            <MapPin size={18} className="text-[#9A741F] flex-shrink-0 mt-0.5" aria-hidden="true" />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#6B756E]">Location</p>
+              <p className="text-sm font-medium text-[#1B2620]">{SITE_CONFIG.SHORT_ADDRESS}</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <Clock size={18} className="text-[#9A741F] flex-shrink-0 mt-0.5" aria-hidden="true" />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#6B756E]">Operating Hours</p>
+              <p className="text-sm font-medium text-[#1B2620] tabular-nums">{SITE_CONFIG.BUSINESS_HOURS.DISPLAY}</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <ShieldCheck size={18} className="text-[#9A741F] flex-shrink-0 mt-0.5" aria-hidden="true" />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#6B756E]">Hygiene Protocol</p>
+              <p className="text-sm font-medium text-[#1B2620]">Fresh Linens &amp; Sanitized AC Suites</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <Phone size={18} className="text-[#9A741F] flex-shrink-0 mt-0.5" aria-hidden="true" />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#6B756E]">Pricing &amp; Booking</p>
+              <a
+                href={`tel:${SITE_CONFIG.PHONE_NUMBER}`}
+                className="text-sm font-semibold text-[#1B2620] hover:text-[#9A741F] transition-colors tabular-nums"
+              >
+                Price on Call · {SITE_CONFIG.PHONE_DISPLAY}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

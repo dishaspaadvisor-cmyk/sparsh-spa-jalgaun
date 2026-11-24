@@ -1,103 +1,140 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin } from "lucide-react";
-import { CONFIG, ROUTES } from "../config/constants";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
+import { SITE_CONFIG, ROUTES } from '../config/siteConfig';
+import { buildWhatsAppUrl } from '../hooks/useWhatsApp';
 
 const Footer = () => {
+  const whatsappUrl = buildWhatsAppUrl(SITE_CONFIG.DEFAULT_WHATSAPP_MESSAGE);
+
   return (
-    <footer className="relative bg-[#f8f6f2] text-stone-800 border-t border-stone-200">
-      {/* Footer Content */}
-      <div className="relative container mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
-        {/* Brand Summary */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
+    <footer className="bg-[#1B2620] text-[#FAF8F4] border-t border-[#2A3B32]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-1 md:grid-cols-12 gap-10">
+        {/* Brand & Description */}
+        <div className="md:col-span-5 space-y-4">
+          <Link to={ROUTES.HOME} className="inline-flex items-center gap-3">
             <img
               src="/Logo/1.png"
-              alt={`${CONFIG.BUSINESS_NAME} Logo`}
-              className="h-14 w-auto object-contain"
+              alt={SITE_CONFIG.BUSINESS_NAME}
+              className="h-11 w-auto object-contain bg-[#FAF8F4] rounded-md p-1"
+              referrerPolicy="no-referrer"
             />
-          </div>
-          <p className="text-gray-600 text-sm leading-relaxed max-w-sm">
-            {CONFIG.BUSINESS_DESCRIPTION} Rejuvenate your mind, body, and soul with our certified therapists and luxury spa ambience in Jalgaon.
+            <span className="font-display text-2xl font-semibold text-[#FAF8F4]">
+              {SITE_CONFIG.BUSINESS_NAME}
+            </span>
+          </Link>
+          <p className="text-sm text-[#D6D0C4] leading-relaxed max-w-md">
+            {SITE_CONFIG.BUSINESS_DESCRIPTION}
           </p>
+          <div className="flex items-center gap-3 pt-1">
+            <a
+              href={`tel:${SITE_CONFIG.PHONE_NUMBER}`}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2A3B32] hover:bg-[#35493E] text-xs font-semibold text-[#FAF8F4] transition-colors"
+            >
+              <Phone size={14} className="text-[#D4AF37]" aria-hidden="true" />
+              <span>{SITE_CONFIG.PHONE_DISPLAY}</span>
+            </a>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1E6B4B] hover:bg-[#247A56] text-xs font-semibold text-white transition-colors"
+            >
+              <FaWhatsapp size={15} aria-hidden="true" />
+              <span>WhatsApp</span>
+            </a>
+          </div>
         </div>
 
-        {/* Contact Section */}
-        <div>
-          <h3 className="text-lg font-bold text-stone-900 mb-4">Contact Us</h3>
-          <ul className="space-y-3.5 text-stone-700 text-sm">
-            <li className="flex items-center space-x-3">
-              <Phone className="w-4 h-4 text-[#b58d20] flex-shrink-0" />
-              <a
-                href={`tel:${CONFIG.PHONE_NUMBER}`}
-                className="relative inline-block text-gray-700 hover:text-[#b58d20] after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:w-0 after:h-[2px] after:bg-[#D4AF37] after:transition-all after:duration-300 hover:after:w-full transition-colors"
-              >
-                {CONFIG.PHONE_DISPLAY}
-              </a>
-            </li>
-            <li className="flex items-center space-x-3">
-              <Mail className="w-4 h-4 text-[#b58d20] flex-shrink-0" />
-              <a
-                href={`mailto:${CONFIG.EMAIL}`}
-                className="relative inline-block text-gray-700 hover:text-[#b58d20] after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:w-0 after:h-[2px] after:bg-[#D4AF37] after:transition-all after:duration-300 hover:after:w-full transition-colors"
-              >
-                {CONFIG.EMAIL}
-              </a>
-            </li>
-            <li className="flex items-start space-x-3">
-              <MapPin className="w-4 h-4 text-[#b58d20] flex-shrink-0 mt-0.5" />
-              <span className="leading-relaxed">
-                {CONFIG.ADDRESS}
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-lg font-bold text-stone-900 mb-4">Quick Links</h3>
-          <ul className="space-y-2.5 text-stone-700 text-sm">
+        {/* Navigation Links */}
+        <div className="md:col-span-3">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-[#D4AF37] mb-4">
+            Explore
+          </h3>
+          <ul className="space-y-2.5 text-sm text-[#D6D0C4]">
             <li>
-              <Link to={ROUTES.HOME} className="relative inline-block text-gray-700 hover:text-[#b58d20] after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:w-0 after:h-[2px] after:bg-[#D4AF37] after:transition-all after:duration-300 hover:after:w-full transition-colors">
+              <Link to={ROUTES.HOME} className="hover:text-[#FAF8F4] transition-colors">
                 Home
               </Link>
             </li>
             <li>
-              <Link to={ROUTES.ABOUT} className="relative inline-block text-gray-700 hover:text-[#b58d20] after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:w-0 after:h-[2px] after:bg-[#D4AF37] after:transition-all after:duration-300 hover:after:w-full transition-colors">
+              <Link to={ROUTES.ABOUT} className="hover:text-[#FAF8F4] transition-colors">
                 About Us
               </Link>
             </li>
             <li>
-              <Link to={ROUTES.SERVICES} className="relative inline-block text-gray-700 hover:text-[#b58d20] after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:w-0 after:h-[2px] after:bg-[#D4AF37] after:transition-all after:duration-300 hover:after:w-full transition-colors">
-                Services
+              <Link to={ROUTES.SERVICES} className="hover:text-[#FAF8F4] transition-colors">
+                Services &amp; Therapies
               </Link>
             </li>
             <li>
-              <Link to={ROUTES.CONTACT} className="relative inline-block text-gray-700 hover:text-[#b58d20] after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:w-0 after:h-[2px] after:bg-[#D4AF37] after:transition-all after:duration-300 hover:after:w-full transition-colors">
-                Contact
+              <Link to={ROUTES.OFFERS} className="hover:text-[#FAF8F4] transition-colors">
+                Wellness Packages
               </Link>
+            </li>
+            <li>
+              <Link to={ROUTES.CONTACT} className="hover:text-[#FAF8F4] transition-colors">
+                Contact &amp; Booking
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Consistent NAP & Hours */}
+        <div className="md:col-span-4">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-[#D4AF37] mb-4">
+            Visit Our Sanctuary
+          </h3>
+          <ul className="space-y-3 text-sm text-[#D6D0C4]">
+            <li className="flex items-start gap-3">
+              <MapPin size={16} className="text-[#D4AF37] flex-shrink-0 mt-0.5" aria-hidden="true" />
+              <a
+                href={SITE_CONFIG.GOOGLE_MAPS_DIRECTIONS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#FAF8F4] leading-relaxed transition-colors"
+              >
+                {SITE_CONFIG.ADDRESS}
+              </a>
+            </li>
+            <li className="flex items-center gap-3">
+              <Clock size={16} className="text-[#D4AF37] flex-shrink-0" aria-hidden="true" />
+              <span>Open Daily: {SITE_CONFIG.BUSINESS_HOURS.DISPLAY}</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <Phone size={16} className="text-[#D4AF37] flex-shrink-0" aria-hidden="true" />
+              <a
+                href={`tel:${SITE_CONFIG.PHONE_NUMBER}`}
+                className="hover:text-[#FAF8F4] transition-colors tabular-nums"
+              >
+                {SITE_CONFIG.PHONE_DISPLAY}
+              </a>
+            </li>
+            <li className="flex items-center gap-3">
+              <Mail size={16} className="text-[#D4AF37] flex-shrink-0" aria-hidden="true" />
+              <a
+                href={`mailto:${SITE_CONFIG.EMAIL}`}
+                className="hover:text-[#FAF8F4] transition-colors"
+              >
+                {SITE_CONFIG.EMAIL}
+              </a>
             </li>
           </ul>
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="relative border-t border-stone-200 px-6 py-5">
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-gray-500 text-sm font-medium">
-          <p className="text-center md:text-left">
-            © {new Date().getFullYear()} {CONFIG.BUSINESS_NAME}. All rights reserved.
+      {/* Bottom Legal Bar */}
+      <div className="border-t border-[#2A3B32]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#B3AEA2]">
+          <p>
+            © {new Date().getFullYear()} {SITE_CONFIG.BUSINESS_NAME}, Jalgaon. All rights reserved.
           </p>
-          <nav aria-label="Legal links" className="flex items-center gap-5">
-            <Link
-              to="/privacy-policy"
-              className="hover:text-[#b58d20] transition-colors"
-            >
+          <nav aria-label="Legal links" className="flex items-center gap-6">
+            <Link to={ROUTES.PRIVACY} className="hover:text-[#FAF8F4] transition-colors">
               Privacy Policy
             </Link>
-            <Link
-              to="/terms-and-conditions"
-              className="hover:text-[#b58d20] transition-colors"
-            >
+            <Link to={ROUTES.TERMS} className="hover:text-[#FAF8F4] transition-colors">
               Terms &amp; Conditions
             </Link>
           </nav>

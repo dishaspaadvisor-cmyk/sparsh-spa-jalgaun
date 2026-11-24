@@ -1,115 +1,97 @@
-import React from 'react';
-import { ChevronRight, Sparkles, Check, Phone } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { CONFIG, ROUTES } from '../config/constants';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Check, ArrowRight, Sparkles } from 'lucide-react';
+import { SITE_CONFIG, ROUTES } from '../config/siteConfig';
 
 const AboutSection = () => {
-  const navigate = useNavigate();
+  const [imgError, setImgError] = useState(false);
 
-  const handleViewServices = () => {
-    navigate(ROUTES.SERVICES);
-  };
+  const standards = [
+    'Trained & certified wellness therapists',
+    'Hospital-grade suite sanitization between guests',
+    'Cold-pressed botanical & Ayurvedic oils',
+    'Private individual & couple treatment suites',
+  ];
 
   return (
-    <section id="about" className="py-14 sm:py-16 md:py-20 bg-white text-gray-900 border-b border-stone-100">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-
-          {/* Left Side - Image Showcase (Equal Height) */}
-          <div className="relative order-1 flex flex-col justify-between">
-            <div className="relative w-full h-full min-h-[320px] sm:min-h-[380px] lg:min-h-[440px] rounded-3xl overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.07)] border border-stone-200/90 group bg-stone-100">
-              <img
-                src="/AboutImg/AboutImg.png"
-                alt={`${CONFIG.BUSINESS_NAME} Spa Team`}
-                className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                loading="lazy"
-                onError={(e) => {
-                  e.target.src = "/ServicesImg/welcome_img.png";
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-transparent opacity-80" />
-
-              {/* Bottom Image Overlay Pill */}
-              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-stone-200/80 shadow-lg flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#D4AF37] flex-shrink-0 animate-pulse" />
-                  <span className="text-xs font-bold text-stone-900">Certified Spa Team</span>
+    <section id="about" className="py-16 md:py-24 bg-[#FAF8F4] text-[#1B2620]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
+          {/* Left Media Column */}
+          <div className="lg:col-span-6">
+            <div className="relative h-full min-h-[340px] lg:min-h-[460px] rounded-2xl overflow-hidden border border-[#E5DFD3] bg-[#F2EDE4]">
+              {!imgError ? (
+                <img
+                  src="/AboutImg/AboutImg.png"
+                  alt={`Calm wellness interior at ${SITE_CONFIG.BUSINESS_NAME} in Jalgaon`}
+                  className="w-full h-full object-cover object-top"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                  onError={() => setImgError(true)}
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center">
+                  <Sparkles className="w-8 h-8 text-[#9A741F] mb-3" aria-hidden="true" />
+                  <p className="font-display text-2xl font-semibold text-[#1B2620]">
+                    {SITE_CONFIG.BUSINESS_NAME}
+                  </p>
+                  <p className="text-sm text-[#4A554E] mt-1">{SITE_CONFIG.LOCATION}</p>
                 </div>
-                <span className="text-[11px] font-semibold text-[#b58d20] bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">
-                  Navi Peth, Jalgaon
-                </span>
-              </div>
+              )}
             </div>
           </div>
 
-          {/* Right Side - Compact & Balanced Content (Equal Height) */}
-          <div className="order-2 flex flex-col justify-between h-full space-y-5 lg:py-2">
-            <div>
-              {/* Category Eyebrow */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200/70 text-[#b58d20] text-xs font-bold uppercase tracking-wider mb-3">
-                <Sparkles size={12} className="text-[#b58d20]" />
-                <span>About Sparsh Spa</span>
-              </div>
+          {/* Right Editorial Content */}
+          <div className="lg:col-span-6 flex flex-col justify-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9A741F] mb-3">
+              About {SITE_CONFIG.BUSINESS_NAME}
+            </p>
 
-              {/* Main Heading */}
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-900 leading-tight">
-                Best Luxury Spa & Massage Centre in Jalgaon
-              </h2>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.75rem] font-semibold text-[#1B2620] leading-[1.15] mb-5">
+              Thoughtful Care Rooted in Authentic Wellness Traditions
+            </h2>
 
-              {/* Natural Human-Written Description */}
-              <p className="text-sm sm:text-base text-stone-600 leading-relaxed mt-3">
-                Welcome to <strong className="text-stone-900">Sparsh Spa</strong>, your trusted destination for authentic relaxation and body massage in Jalgaon. Whether you need relief from daily fatigue or want to unwind after a busy week, our trained therapists offer Swedish, Thai, Deep Tissue, and Royal Jacuzzi sessions in private, clean, and fully air-conditioned suites.
-              </p>
-            </div>
+            <p className="text-base text-[#4A554E] leading-relaxed mb-4">
+              Located near Khandesh Central Mall in Navi Peth, {SITE_CONFIG.BUSINESS_NAME} offers
+              a quiet retreat from busy schedules. Our therapists tailor pressure, warm botanical
+              oils, and session pacing to restore physical comfort and mental calm.
+            </p>
 
-            {/* 4 Feature Chips (2x2 Grid) */}
-            <div className="grid grid-cols-2 gap-3 pt-1">
-              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
-                <div className="w-6 h-6 rounded-full bg-[#D4AF37] flex items-center justify-center flex-shrink-0 text-white shadow-sm">
-                  <Check size={13} className="stroke-[3]" />
-                </div>
-                <span className="text-xs sm:text-sm font-semibold text-stone-800 truncate">Certified Therapists</span>
-              </div>
+            <p className="text-base text-[#4A554E] leading-relaxed mb-7">
+              Every appointment takes place in a private, climate-controlled suite prepared with
+              freshly laundered linens, warm shower amenities, and strict hygiene standards.
+            </p>
 
-              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
-                <div className="w-6 h-6 rounded-full bg-[#D4AF37] flex items-center justify-center flex-shrink-0 text-white shadow-sm">
-                  <Check size={13} className="stroke-[3]" />
-                </div>
-                <span className="text-xs sm:text-sm font-semibold text-stone-800 truncate">Hygienic AC Suites</span>
-              </div>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
+              {standards.map((point, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-2.5 text-sm font-medium text-[#1B2620]"
+                >
+                  <Check
+                    size={16}
+                    className="text-[#9A741F] flex-shrink-0 mt-0.5"
+                    aria-hidden="true"
+                  />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
 
-              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
-                <div className="w-6 h-6 rounded-full bg-[#D4AF37] flex items-center justify-center flex-shrink-0 text-white shadow-sm">
-                  <Check size={13} className="stroke-[3]" />
-                </div>
-                <span className="text-xs sm:text-sm font-semibold text-stone-800 truncate">Luxury Ambience</span>
-              </div>
-
-              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
-                <div className="w-6 h-6 rounded-full bg-[#D4AF37] flex items-center justify-center flex-shrink-0 text-white shadow-sm">
-                  <Check size={13} className="stroke-[3]" />
-                </div>
-                <span className="text-xs sm:text-sm font-semibold text-stone-800 truncate">Couple Rooms Available</span>
-              </div>
-            </div>
-
-            {/* Action Buttons Row */}
-            <div className="flex items-center gap-3 pt-2">
-              <button
-                onClick={handleViewServices}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-stone-950 bg-gradient-to-r from-[#D4AF37] via-[#dfbe52] to-[#c59b27] hover:from-[#c59b27] hover:to-[#b58d20] shadow-[0_4px_14px_rgba(212,175,55,0.25)] hover:shadow-[0_6px_20px_rgba(212,175,55,0.35)] transition-all duration-300 transform active:scale-95"
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                to={ROUTES.SERVICES}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#1B2620] text-[#FAF8F4] text-sm font-semibold hover:bg-[#2A3B32] transition-colors whitespace-nowrap"
               >
-                <span>View Services</span>
-                <ChevronRight size={16} />
-              </button>
-
-              <a
-                href={`tel:${CONFIG.PHONE_NUMBER}`}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-stone-700 bg-stone-100 hover:bg-stone-200 border border-stone-200 transition-colors"
+                <span>Explore Treatments</span>
+                <ArrowRight size={16} aria-hidden="true" />
+              </Link>
+              <Link
+                to={ROUTES.CONTACT}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-[#1B2620] text-[#1B2620] text-sm font-semibold hover:bg-[#F2EDE4] transition-colors whitespace-nowrap"
               >
-                <Phone size={14} className="text-[#b58d20]" />
-                <span>Call Us</span>
-              </a>
+                <span>Visit &amp; Directions</span>
+              </Link>
             </div>
           </div>
         </div>
